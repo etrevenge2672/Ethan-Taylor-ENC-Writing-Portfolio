@@ -148,7 +148,7 @@ main { padding-block: 28px 56px; }
 .foot p { margin: 0; font: 600 12px/1.4 var(--f-ui); letter-spacing: .28em; text-transform: uppercase; color: var(--gold); }
 
 body.readonly .doc:focus-visible { outline: none; }
-body.readonly .guide { display: none; }
+body.readonly .guide { body.readonly .guide { display: block !important; } }
 @media (max-width: 560px) {
   .tb { min-width: 36px; }
   .bar { width: 70px; }
