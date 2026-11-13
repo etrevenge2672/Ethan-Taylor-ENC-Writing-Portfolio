@@ -154,6 +154,11 @@ body.readonly .guide { display: none; }
   .bar { width: 70px; }
   .lbl { display: none; }
 }
+
+/* Public portfolio: visitors can view but cannot edit. */
+.tools, .addrow, #pick { display: none !important; }
+.doc { cursor: default; }
+.doc img { cursor: default; }
 </style>
 </head>
 <body>
@@ -293,7 +298,7 @@ body.readonly .guide { display: none; }
   const LS = 'fsu-portfolio:';
   const TABS = ['home', 'revisions', 'reflections', 'artifacts'];
   const editors = $$('[data-key]');
-  const st = { db: null, assets: null, editable: true, range: null, active: null, img: null, tab: 'home',
+  const st = { db: null, assets: null, editable: false, range: null, active: null, img: null, tab: 'home',
                pending: {}, busy: {}, failed: {}, lost: {}, touched: {}, dbChecked: false };
   const statusEl = $('#status');
   let flashTimer = 0;
@@ -596,9 +601,9 @@ body.readonly .guide { display: none; }
   /* ---------- editor wiring ---------- */
   document.execCommand('defaultParagraphSeparator', false, 'p');
   editors.forEach(ed => {
-    ed.setAttribute('contenteditable', 'true');
-    ed.setAttribute('spellcheck', 'true');
-    ed.setAttribute('role', 'textbox');
+    ed.removeAttribute('contenteditable');
+    ed.setAttribute('spellcheck', 'false');
+    ed.setAttribute('role', 'document');
     if (ed.dataset.label) ed.setAttribute('aria-label', ed.dataset.label);
     if (!ed.hasAttribute('data-plain')) ed.setAttribute('aria-multiline', 'true');
 
@@ -738,10 +743,9 @@ body.readonly .guide { display: none; }
 
   editors.forEach(ed => { if (!ed.hasAttribute('data-plain')) ed.innerHTML = cleanHTML(ed.innerHTML); });
   editors.forEach(ed => { if (!ed.hasAttribute('data-plain')) ed.innerHTML = cleanHTML(ed.innerHTML); });
-  loadLocal();
   show(hashTab(), true);
   refreshStatus();
-  boot();
+  setEditable(false);
 })();
 </script>
 
